@@ -2,7 +2,6 @@ const db = require("../models");
 
 const addDNS = async (req, res) => {
   try {
-    console.log("body", req.body);
     const info = {
       domain: req.body.domainLink,
       name: req.body.name,

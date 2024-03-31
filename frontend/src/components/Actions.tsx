@@ -26,7 +26,7 @@ const Actions = ({ row }: { row: DNS }) => {
   const deleteRow = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:5000/api/dns/deleteDNSById?id=${row.id}`
+        `${process.env.BASE_URL}/api/dns/deleteDNSById?id=${row.id}`
       );
       if (res.status === 200) {
         toast({
@@ -49,7 +49,7 @@ const Actions = ({ row }: { row: DNS }) => {
     }
     try {
       const res = await axios.patch(
-        "http://localhost:5000/api/dns/editDNS",
+        `${process.env.BASE_URL}/api/dns/editDNS`,
         newData
       );
       if (res.status === 200) {

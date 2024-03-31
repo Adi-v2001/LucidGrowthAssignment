@@ -25,7 +25,7 @@ const Login = () => {
     <div
       style={{
         backgroundImage: `url("https://www.freecodecamp.org/news/content/images/size/w2000/2020/05/earth-3866609_1920.jpg")`,
-        minHeight: "100vh",
+        minHeight: "90.4vh",
       }}
     >
       <div className="flex flex-col items-center w-full justify-center h-[600px]">
@@ -48,6 +48,7 @@ const Login = () => {
           <div className="space-y-2">
             <Input
               placeholder="Password"
+              type="password"
               className="border-white text-white placeholder:text-white"
               {...register("password", {
                 required: "Password is required",

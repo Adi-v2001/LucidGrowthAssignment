@@ -7,7 +7,7 @@ const Home = () => {
     const [allDNS, setAllDNS] = useState<DNS[]>()
     useEffect(() => {
       const getAllDns = async () => {
-        const res = await axios.get('http://localhost:5000/api/dns/getAllDNS')
+        const res = await axios.get(`${process.env.BASE_URL}/api/dns/getAllDNS`)
         setAllDNS(res.data)
       }
       getAllDns().catch(err => console.log("An error occured", err))
