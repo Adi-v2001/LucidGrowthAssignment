@@ -6,7 +6,8 @@ const app = express();
 
 //Middlewares
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL]
+  origin: [process.env.FRONTEND_URL],
+  credentials: true
 }
 app.use(cors())
 app.use(cors(corsOptions));
