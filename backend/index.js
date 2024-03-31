@@ -6,7 +6,7 @@ const app = express();
 
 //Middlewares
 const corsOptions = {
-  origin: ["https://lucid-growth-assignment-frontend.vercel.app"],
+  origin: [process.env.FRONTEND_URL],
   credentials: true,
 }
 app.use(cors(corsOptions));
