@@ -39,7 +39,7 @@ export function AuthProvider({
       navigate("/");
     }
   }, []);
-
+  axios.defaults.withCredentials = true;
   const login = async (userData: { email: string; password: string }) => {
     const res = await axios.post(
       `${process.env.BASE_URL}/api/user/login`,
