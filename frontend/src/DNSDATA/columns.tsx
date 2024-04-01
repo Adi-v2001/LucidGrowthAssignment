@@ -26,10 +26,6 @@ export type DNS = {
 
 export const columns: ColumnDef<DNS>[] = [
     {
-      accessorKey: "id",
-      header: "ID",
-    },
-    {
       accessorKey: "name",
       header: "Name",
     },
