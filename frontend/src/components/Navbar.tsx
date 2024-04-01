@@ -11,6 +11,8 @@ import axios from "axios";
 import { toast } from "./ui/use-toast";
 import Form from "./Form";
 import { useAuth } from "@/Context/UserContext";
+import { useState } from "react";
+import { useDns } from "@/Context/DnsContext";
 
 interface FormData {
   name: string;
@@ -20,8 +22,11 @@ interface FormData {
 
 const Navbar = () => {
   const { isLoggedIn, logout } = useAuth();
+  const {refreshAllDns} = useDns()
+  const [loading, setLoading] = useState(false)
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
+      setLoading(true)
       const res = await axios.post(
         `${process.env.BASE_URL}/api/dns/addDNS`,
         data
@@ -30,6 +35,7 @@ const Navbar = () => {
         toast({
           title: "DNS record created successfully",
         });
+        refreshAllDns()
       } else {
         toast({
           title: "Error while creating DNS record",
@@ -38,6 +44,8 @@ const Navbar = () => {
       }
     } catch (err) {
       console.log("An error occured", err);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -56,7 +64,7 @@ const Navbar = () => {
               <DialogHeader>
                 <DialogTitle>Add New DNS</DialogTitle>
               </DialogHeader>
-              <Form onSubmit={onSubmit} />
+              <Form onSubmit={onSubmit} loading={loading}/>
             </DialogContent>
           </Dialog>
           <Button className="bg-transparent border border-white hover:bg-violet-500" onClick={logout}>

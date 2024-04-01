@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import Form from "./Form";
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
+import { useDns } from "@/Context/DnsContext";
 
 interface FormData {
     name: string;
@@ -23,6 +24,8 @@ interface FormData {
 
 const Actions = ({ row }: { row: DNS }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const {refreshAllDns} = useDns()
   const deleteRow = async () => {
     try {
       const res = await axios.delete(
@@ -32,6 +35,7 @@ const Actions = ({ row }: { row: DNS }) => {
         toast({
           title: "Record deleted successfully",
         });
+        refreshAllDns()
       } else {
         toast({
           title: "Error deleted record",
@@ -48,6 +52,7 @@ const Actions = ({ row }: { row: DNS }) => {
         id: row.id
     }
     try {
+      setLoading(true)
       const res = await axios.patch(
         `${process.env.BASE_URL}/api/dns/editDNS`,
         newData
@@ -56,6 +61,7 @@ const Actions = ({ row }: { row: DNS }) => {
         toast({
           title: "Record edited successfully",
         });
+        refreshAllDns()
       } else {
         toast({
           title: "Error editing record",
@@ -64,6 +70,8 @@ const Actions = ({ row }: { row: DNS }) => {
       }
     } catch (err) {
       console.log("An error occured", err);
+    } finally {
+      setLoading(false)
     }
   };
   return (
@@ -111,7 +119,7 @@ const Actions = ({ row }: { row: DNS }) => {
           <DialogHeader>
             <DialogTitle>Edit Record</DialogTitle>
           </DialogHeader>
-          <Form onSubmit={editDNS} isEdit={true} prevData={row} />
+          <Form onSubmit={editDNS} isEdit={true} prevData={row} loading={loading} />
         </DialogContent>
       </Dialog>
     </>

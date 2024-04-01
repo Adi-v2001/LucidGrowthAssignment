@@ -13,14 +13,16 @@ interface AuthContext {
   login: (userData: { email: string; password: string }) => Promise<void>;
   user: user | null;
   isLoggedIn: boolean;
-  logout: () => void
+  logout: () => void;
+  loading: boolean
 }
 
 const authContext = createContext<AuthContext>({
   login: async (_userData: { email: string; password: string }) => {},
   user: null,
   isLoggedIn: false,
-  logout: () => {}
+  logout: () => {},
+  loading: false
 });
 
 export function AuthProvider({
@@ -29,7 +31,8 @@ export function AuthProvider({
   children: React.ReactNode;
 }): JSX.Element {
   const [user, setUser] = useState<user | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate();
 
@@ -37,10 +40,13 @@ export function AuthProvider({
     const token = localStorage.getItem("lucidJWT");
     if (!token) {
       navigate("/");
+    } else {
+      setIsLoggedIn(true)
     }
   }, []);
   
   const login = async (userData: { email: string; password: string }) => {
+    setLoading(true)
     const res = await axios.post(
       `${process.env.BASE_URL}/api/user/login`,
       userData
@@ -59,6 +65,7 @@ export function AuthProvider({
         variant: "destructive",
       });
     }
+    setLoading(false)
   };
 
   const logout = () => {
@@ -72,7 +79,7 @@ export function AuthProvider({
   }
 
   return (
-    <authContext.Provider value={{ login, user, isLoggedIn, logout }}>
+    <authContext.Provider value={{ login, user, isLoggedIn, logout, loading }}>
       {children}
     </authContext.Provider>
   );

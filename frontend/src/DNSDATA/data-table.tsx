@@ -17,8 +17,6 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import PopoverFilter from "@/components/PopoverFilter";
-import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,25 +39,27 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  console.log('columsFIlters', columnFilters)
+
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center space-x-6 bg-violet-500 p-4 rounded-lg">
         <Input
           placeholder="Search by name"
           value={(table.getColumn("name")?.getFilterValue() as string) || ""}
           onChange={(e) => {
             table.getColumn("name")?.setFilterValue(e.target.value);
           }}
-          className="max-w-sm border-slate-400"
+          className="max-w-64 border-white text-white placeholder:text-white"
         />
-        <PopoverFilter />
-        <Button onClick={() => setColumnFilters(prev => ([
-    ...prev,
-    {
-        id: 'recordType',
-        value: 'A'
-    }
-]))}/>
+        <Input
+          placeholder="Search by Record Type"
+          value={(table.getColumn("recordType")?.getFilterValue() as string) || ""}
+          onChange={(e) => {
+            table.getColumn("recordType")?.setFilterValue(e.target.value);
+          }}
+          className="max-w-64 border-white text-white placeholder:text-white"
+        />
       </div>
       <div className="rounded-md border">
         <Table>

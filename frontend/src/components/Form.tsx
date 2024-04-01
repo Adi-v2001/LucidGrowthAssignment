@@ -2,12 +2,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { DNS } from "@/DNSDATA/columns";
+import LoadingButton from "./LoadingButton";
 interface FormData {
     name: string;
     domainLink: string;
     recordType: string;
   }
-const Form = ({onSubmit, isEdit, prevData}: {onSubmit: SubmitHandler<FormData>, isEdit?: boolean, prevData?: DNS}) => {
+const Form = ({onSubmit, isEdit, prevData, loading}: {onSubmit: SubmitHandler<FormData>, isEdit?: boolean, prevData?: DNS, loading: boolean}) => {
     const {
         register,
         handleSubmit,
@@ -66,12 +67,14 @@ const Form = ({onSubmit, isEdit, prevData}: {onSubmit: SubmitHandler<FormData>, 
                 {errors.recordType?.message}
               </p>
             </div>
-            <Button
+            {loading ? (<LoadingButton text={isEdit ? "Editing":"Creating"}/>):(
+              <Button
               className="bg-violet-600 hover:bg-violet-500 w-full"
               type="submit"
             >
               {isEdit ? 'Edit DNS':'Create DNS'}
             </Button>
+            )}
           </form>
   )
 }

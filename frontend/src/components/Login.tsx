@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import LoadingButton from "./LoadingButton";
 
 interface FormData {
   email: string;
@@ -10,7 +11,7 @@ interface FormData {
 }
 
 const Login = () => {
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
   const navigator = useNavigate()
   const {
     register,
@@ -58,12 +59,14 @@ const Login = () => {
               {errors.password?.message}
             </p>
           </div>
-          <Button
+          {loading ? (<LoadingButton text="Logging in"/>):(
+            <Button
             className="bg-violet-600 hover:bg-violet-500 w-full border border-white"
             type="submit"
           >
             Login
           </Button>
+          )}
           <div className="flex space-x-2">
           <p className="text-white">New to the website? -</p>
           <p className="font-semibold text-yellow-300 underline hover:text-white cursor-pointer" onClick={() => navigator('/signup')}>SignUp</p>

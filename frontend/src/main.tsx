@@ -5,12 +5,15 @@ import "./index.css";
 import { Toaster } from "./components/ui/toaster.tsx";
 import { AuthProvider } from "./Context/UserContext.tsx";
 import { BrowserRouter } from "react-router-dom";
+import { DnsProvider } from "./Context/DnsContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
+        <DnsProvider>
         <App />
+        </DnsProvider>
         <Toaster />
       </AuthProvider>
     </BrowserRouter>

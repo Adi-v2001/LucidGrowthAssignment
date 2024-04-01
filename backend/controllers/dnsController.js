@@ -57,6 +57,21 @@ const editDNS = async (req, res) => {
   }
 };
 
+const getCountOfDns = async (req, res) => {
+  try {
+    const response = await db.dns.findAll({
+      attributes: [
+        [db.sequelize.literal("recordType"), "name"],
+        [db.sequelize.fn("COUNT", db.sequelize.col("recordType")), "value"],
+      ],
+      group: ["recordType"],
+    });
+    res.status(200).send(response);
+  } catch (err) {
+    res.sendStatus(500).send("Internal server error");
+  }
+};
+
 const deleteDNSById = async (req, res) => {
   try {
     const id = req.query.id;
@@ -78,4 +93,5 @@ module.exports = {
   getDNSByType,
   deleteDNSById,
   editDNS,
+  getCountOfDns,
 };

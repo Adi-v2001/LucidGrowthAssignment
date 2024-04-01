@@ -63,6 +63,7 @@ export const columns: ColumnDef<DNS>[] = [
     },
     {
       id: "actions",
+      header: 'Actions',
     cell: ({ row }) => {
       return (
         <Actions row={row.original}/>
